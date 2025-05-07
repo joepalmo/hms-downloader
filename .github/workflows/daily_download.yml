@@ -26,8 +26,8 @@ jobs:
     - name: Install dependencies
       run: poetry install
 
-    - name: Set up GCS credentials
-      run: echo "${{ secrets.GCS_CREDS_JSON }}" > credentials.json
+    # - name: Set up GCS credentials
+    #   run: echo "${{ secrets.GCS_CREDS_JSON }}" > credentials.json
 
     - name: Run downloader
       run: poetry run python download.py
