@@ -10,9 +10,8 @@ BUCKET_NAME = 'noaa-hms'
 SMOKE_PREFIX = 'smoke'
 FIRE_PREFIX = 'fire'
 
-#read the dictionary from the credential json file -- hms_creds.json
-with open('credentials.json') as f:
-    token = json.load(f)
+#read GCS from Github secrets
+token = json.loads(os.environ['GCS_CREDS_JSON'])
 
 fs = gcsfs.GCSFileSystem(project='smoke-aq-viewer', token=token)
 
