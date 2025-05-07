@@ -1,0 +1,33 @@
+name: Daily HMS Download
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # 12:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: poetry install
+
+    - name: Set up GCS credentials
+      run: echo "${{ secrets.GCS_CREDS_JSON }}" > credentials.json
+
+    - name: Run downloader
+      run: poetry run python download.py
